@@ -1,10 +1,14 @@
+#  DAY 1
+
 from flask import Flask, render_template, request, jsonify, make_response
+
 from model import db, User as test, Details
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.sqlite3"
 
 db.init_app(app)
+
 
 with app.app_context():
     db.create_all()
@@ -65,6 +69,7 @@ def get_data():
     return jsonify({"message": "Data not found!"}), 404
 
 @app.route("/post", methods=["POST"])
+# rbac
 def post():
     if request.method == "POST":
         # var3 = request.form
@@ -84,7 +89,7 @@ def post():
             db.session.commit()
         # return var3["data"]
         # return jsonify({"message": "got the data!", "data": result.id})
-        return jsonify({"message": "name already present", "data": result.name}), 409
+        return jsonify({"message": "name already present", "data": check.name}), 409
 
 if __name__ == "__main__":
     app.run(debug=True)
