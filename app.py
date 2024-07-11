@@ -1,6 +1,13 @@
 from flask import Flask, render_template, request, jsonify
+from model import db
 
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.sqlite3"
+
+db.init_app(app)
+
+with app.app_context():
+    db.create_all()
 
 @app.route("/", methods=["GET", "POST"])
 def index():
