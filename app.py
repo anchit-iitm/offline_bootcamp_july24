@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, make_response
 from model import db, test
 
 app = Flask(__name__)
@@ -24,26 +24,29 @@ def index():
             db.session.commit()
             return jsonify({"message": "Data added!", "id": new_data.id})
         # return var3["data"]
-        return jsonify({"message": "got the data!", "data": result.id})
+        # return jsonify({"message": "got the data!", "data": result.id})
+        return jsonify({"message": "name already present", "data": result.name}), 409
+    
+
     if request.method == "GET":
         var1 = "Hello World from app.py!"
         data = test.query.all()
         print(data)
 
-        # final_data = []
+        final_data = []
 
-        # for i in data:
-        #     # print(i.name, i.id, i.description)
-        #     # format = {
-        #     #     "id": i.id,
-        #     #     "name": i.name,
-        #     #     "description": i.description
-        #     # }
-        #     # # print(format)
+        for i in data:
+            print(i.name, i.id, i.description)
+            format = {
+                "id": i.id,
+                "name": i.name,
+                "description": i.description
+            }
+            # print(format)
             
-        #     final_data.append(format)
+            final_data.append(format)
 
-        final_data = [i.serialize() for i in data]
+        # final_data = [i.serialize() for i in data]
 
         print(final_data)
 
@@ -52,10 +55,15 @@ def index():
         return jsonify({"data": final_data})
 
 
-@app.route("/getdata/<int:id1>", methods=["GET"])
-def get_data(id1):
+@app.route("/getdata", methods=["GET"])
+def get_data():
+    var3 = request.get_json()
+    id1 = var3["id"]
     result = test.query.filter_by(id=id1).first()
     if result:
         return jsonify({"name": result.name, "data": result.id, "decs": result.description})
+    return jsonify({"message": "Data not found!"}), 404
+
+
 if __name__ == "__main__":
     app.run(debug=True)
