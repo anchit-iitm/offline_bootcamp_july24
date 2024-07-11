@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, make_response
-from model import db, test
+from model import db, User as test, Details
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.sqlite3"
@@ -64,6 +64,27 @@ def get_data():
         return jsonify({"name": result.name, "data": result.id, "decs": result.description})
     return jsonify({"message": "Data not found!"}), 404
 
+@app.route("/post", methods=["POST"])
+def post():
+    if request.method == "POST":
+        # var3 = request.form
+        var3 = request.get_json()
+        email1 = var3["email"]
+        add1 = var3["add"]
+        id1 = var3["id"]
+        print(email1, add1, id)
+        check = test.query.filter_by(id=id1).first()
+        if check:
+            new_details = Details(email=email1, 
+                                  address=add1, 
+                                  user_id=check.id)  
+            db.session.add(new_details)
+            db.session.flush()
+            # saving pdf and if the pdf is svae then only i will this entry to the table
+            db.session.commit()
+        # return var3["data"]
+        # return jsonify({"message": "got the data!", "data": result.id})
+        return jsonify({"message": "name already present", "data": result.name}), 409
 
 if __name__ == "__main__":
     app.run(debug=True)
