@@ -27,8 +27,30 @@ def index():
         return jsonify({"message": "got the data!", "data": result.id})
     if request.method == "GET":
         var1 = "Hello World from app.py!"
+        data = test.query.all()
+        print(data)
+
+        # final_data = []
+
+        # for i in data:
+        #     # print(i.name, i.id, i.description)
+        #     # format = {
+        #     #     "id": i.id,
+        #     #     "name": i.name,
+        #     #     "description": i.description
+        #     # }
+        #     # # print(format)
+            
+        #     final_data.append(format)
+
+        final_data = [i.serialize() for i in data]
+
+        print(final_data)
+
         # return render_template("main.html", var2=var1)
-        return jsonify({"var2": var1})
+        # return jsonify({"var2": var1})
+        return jsonify({"data": final_data})
+
 
 @app.route("/getdata/<int:id1>", methods=["GET"])
 def get_data(id1):
