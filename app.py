@@ -29,6 +29,8 @@ def index():
             return jsonify({"message": "Data added!", "id": new_data.id})
         # return var3["data"]
         # return jsonify({"message": "got the data!", "data": result.id})
+        result.name = "my name is changed"
+        db.session.commit()
         return jsonify({"message": "name already present", "data": result.name}), 409
     
 
