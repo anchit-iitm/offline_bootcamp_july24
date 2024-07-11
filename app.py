@@ -30,5 +30,10 @@ def index():
         # return render_template("main.html", var2=var1)
         return jsonify({"var2": var1})
 
+@app.route("/getdata/<int:id1>", methods=["GET"])
+def get_data(id1):
+    result = test.query.filter_by(id=id1).first()
+    if result:
+        return jsonify({"name": result.name, "data": result.id, "decs": result.description})
 if __name__ == "__main__":
     app.run(debug=True)
