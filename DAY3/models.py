@@ -7,7 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-
+# test test
 class RolesUsers(db.Model):
     __tablename__ = 'roles_users'
     id = Column(Integer(), primary_key=True)
