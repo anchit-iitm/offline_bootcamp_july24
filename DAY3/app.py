@@ -90,6 +90,8 @@ from routes.auth import signup, login
 api.add_resource(signup, "/signup")
 api.add_resource(login, "/signin")
 
+from routes.category import Categories
+api.add_resource(Categories, "/api/categories")
 
 
 

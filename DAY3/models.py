@@ -39,3 +39,12 @@ class User(db.Model, UserMixin):
                          backref=backref('users', lazy='dynamic'))
     
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+
+
+class Category(db.Model):
+    __tablename__ = 'category'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), unique=True)
+    description = Column(String(255), unique=True, nullable=True)
+    status = Column(Boolean(), default=False)
+    user_id = Column(Integer, ForeignKey('user.id'))
