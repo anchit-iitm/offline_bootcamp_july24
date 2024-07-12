@@ -1,7 +1,7 @@
 # Day2: FLask-Security
 
 from flask import Flask, request, jsonify
-from flask_security import Security
+from flask_security import Security, verify_password
 
 from models import db, user_datastore
 
@@ -71,9 +71,12 @@ def signin():
     password = json["password"]
 
     user = user_datastore.find_user(email=email)
-    if not user:
-        return jsonify({"message": "User not found!"}), 404
-    return jsonify({"message": "User found!"}), 200
+    if user and verify_password(password, user.password):
+        return jsonify({"message": "User found!"}), 200
+    
+
+    return jsonify({"message": "User not found!"}), 404
+    
 
 
 if __name__ == "__main__":
