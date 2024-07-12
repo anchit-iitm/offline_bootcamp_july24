@@ -1,7 +1,7 @@
 # Day2: FLask-Security
 
 from flask import Flask, request, jsonify
-from flask_security import Security, verify_password
+from flask_security import Security, verify_password, auth_token_required, roles_accepted, login_user
 
 from models import db, user_datastore
 
@@ -9,6 +9,8 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test2.sqlite3"
 app.config["DEBUG"] = True
 app.config["SECRET_KEY"] = "its_very_secret"
+app.config['SECURITY_TOKEN_AUTHENTICATION_HEADER'] = "Anchit"
+app.config['SECURITY_TRACKABLE'] = True
 
 
 db.init_app(app)
@@ -57,9 +59,12 @@ def singup():
     print(name1, desc, username1)
     if user_datastore.find_user(email=name1):
         return jsonify({"message": "User already exists!"}), 403
+        
     user = user_datastore.create_user(email=name1, 
                                    password=desc, 
                                    username=username1)
+    if role == "manager":
+        user_datastore.deactivate_user(user)
     user_datastore.add_role_to_user(user, role)
     db.session.commit()
     return jsonify({"message": "Data added!", "id": user.id})
@@ -71,13 +76,23 @@ def signin():
     password = json["password"]
 
     user = user_datastore.find_user(email=email)
-    if user and verify_password(password, user.password):
-        return jsonify({"message": "User found!"}), 200
+    if user:
+        if verify_password(password, user.password):
+            token = user.get_auth_token()
+            print(user.roles[0].name)
+            login_user(user)
+            db.session.commit()
+            return jsonify({"message": "User found!", "authToken": token, "email": user.email, "role": user.roles[0].name}), 200
+        return jsonify({"message": "Invalid password!"}), 403
     
 
     return jsonify({"message": "User not found!"}), 404
     
-
+@app.route('/test')
+@auth_token_required
+@roles_accepted("manager")
+def test():
+    return "Hello World!"
 
 if __name__ == "__main__":
     app.run() 
