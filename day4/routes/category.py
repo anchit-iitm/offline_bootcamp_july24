@@ -12,9 +12,10 @@ class Categories(Resource):
         name = data["name"]
         description = data["description"]
         userid = current_user.id
+        
         check = Category.query.filter_by(name=name).first()
         if not check:
-            new_cat = Category(name=name, description=description, user_id=userid)
+            new_cat = Category(name=name, description=description, created_by=userid)
             db.session.add(new_cat)
             if current_user.has_role("admin"):
                 new_cat.status = True

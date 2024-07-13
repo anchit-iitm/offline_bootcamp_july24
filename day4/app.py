@@ -30,7 +30,13 @@ api_handler.add_resource(login, "/api/login")
 api_handler.add_resource(register, "/api/register")
 
 from routes.category import Categories
-api_handler.add_resource(Categories, "/api/categories")
+api_handler.add_resource(Categories, "/api/category")
+
+from routes.product import Products
+api_handler.add_resource(Products, "/api/product")
+
+from routes.admin import switch_manager, switch_product, switch_category
+api_handler.add_resource(switch_manager, "/api/switch_manager")
 
 
 if __name__ == "__main__":

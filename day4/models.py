@@ -9,6 +9,9 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
+import os
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 class RolesUsers(db.Model):
     __tablename__ = 'roles_users'
     id = Column(Integer(), primary_key=True)

@@ -1,8 +1,11 @@
 from flask_restful import Resource
 from flask import jsonify, make_response, request
+from flask_security import auth_token_required, roles_accepted
 from models import db, user_datastore, Product, Category
 
 class switch_manager(Resource):
+    @auth_token_required
+    @roles_accepted("admin")
     def post(self):
         data = request.get_json()
         manager = user_datastore.find_user(id=data['id'])
