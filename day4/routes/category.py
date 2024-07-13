@@ -22,8 +22,13 @@ class Categories(Resource):
             return make_response(jsonify({"message": "Category is created successfully", "cate_id": new_cat.id}), 201)
         return make_response(jsonify({"message": "Category is already present"}), 409)
     def get(self):
-
-        return "get"
+        data = Category.get_all_categories()
+        if data:
+            final_data = []
+            for i in data:
+                final_data.append(i.serialize())
+            return make_response(jsonify({"data": final_data}), 200)
+        return make_response(jsonify({"message": "No category found"}), 404)
     def put(self):
         data = request.get_json()
         name = data["name"]

@@ -70,11 +70,12 @@ with app.app_context():
 
     # return jsonify({"message": "User not found!"}), 404
     
-@app.route('/test', methods=["GET", "POST", "PUT", "DELETE"])
+@app.route('/test/<int:id>', methods=["GET", "POST", "PUT", "DELETE"])
 # @auth_token_required
 # @roles_accepted("manager")
-def test():
+def test(id):
     if request.method == "POST":
+        print(id)
         return "Hello World!, POST"
     if request.method == "GET":
         return "Hello World!, GET" 
@@ -91,7 +92,7 @@ api.add_resource(signup, "/signup")
 api.add_resource(login, "/signin")
 
 from routes.category import Categories
-api.add_resource(Categories, "/api/categories")
+api.add_resource(Categories, "/api/categories", "/api/categories/<int:id>")
 
 
 
