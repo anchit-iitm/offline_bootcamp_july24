@@ -11,12 +11,17 @@ export default {
         return{
             name: null,
             desc: null,
-            token: null
+            token: null,
+            role: null
         }
     },
     created(){
         this.token = localStorage.getItem("token");
+        this.role = localStorage.getItem("role");
         if (this.token == null){
+            if (this.role == "admin"){
+                this.$router.push("/login");
+            }
             this.$router.push("/login");
         }
     },

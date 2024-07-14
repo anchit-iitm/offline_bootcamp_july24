@@ -24,7 +24,9 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             console.log(response);
+
             localStorage.setItem("token", response.data.authToken);
+            localStorage.setItem("role", response.data.role);
             this.$router.push("/");
           }else{
             this.$router.push("/login");

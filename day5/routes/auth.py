@@ -53,3 +53,5 @@ class register(Resource):
         user_datastore.add_role_to_user(user, "customer")
         db.session.commit()
         return make_response(jsonify({"message": "user created", "id": user.id, "email": user.email}), 201)
+    
+
