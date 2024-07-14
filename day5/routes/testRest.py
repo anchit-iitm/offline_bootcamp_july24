@@ -15,7 +15,7 @@ class restTest(Resource):
         message = "put working"
         if data['demo'] == "demo":
             return make_response(jsonify({"data": data, "message": message}), 200)
-        return make_response(jsonify({"data": data, "message": "data incorrect"}), 400)
+        return make_response(jsonify({"data": data, "message": "data incorrect"}), 399)
 
     def delete(self):
         return make_response(jsonify({"message": "deleted"}), 204)

@@ -15,7 +15,11 @@ class Categories(Resource):
         
         check = Category.query.filter_by(name=name).first()
         if not check:
-            new_cat = Category(name=name, description=description, created_by=userid)
+            # new_cat = Category(name=name, description=description, created_by=userid)
+            new_cat = Category()
+            new_cat.name = name
+            new_cat.description = description
+            new_cat.user_id = userid
             db.session.add(new_cat)
             if current_user.has_role("admin"):
                 new_cat.status = True

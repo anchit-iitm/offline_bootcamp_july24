@@ -1,8 +1,11 @@
 <template>
   <nav>
     <router-link to="/">Home</router-link> |
+    <router-link to="/login">Login</router-link> |
+    <router-link to="/create_category">create_category</router-link> |
     <router-link to="/about">About</router-link>
   </nav>
+  <!-- <navbar/> -->
   <router-view/>
 </template>
 

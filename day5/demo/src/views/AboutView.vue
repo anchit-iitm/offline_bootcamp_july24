@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <h1>This is an about page {{ this.data }}</h1>
+    <h1>This is an about page, {{ this.data }}</h1>
     <input type="text" placeholder="say something" v-model="this.data">
     <button @click="anchit">send request</button> <br>
     message: {{ this.text }}, with status: {{ this.result }}!
@@ -28,13 +28,13 @@ export default{
             demo: this.data
           }
         )
-        .then((anchit) => {
-          console.log(anchit);
-          this.result = anchit.status;
-          this.text = anchit.data.message;
+        .then((bhindi) => {
+          console.log(bhindi);
+          this.result = bhindi.status;
+          this.text = bhindi.data.message;
         })
         .catch((error) => {
-          console.log(error);
+          console.log("catch block:", error);
         });
 
     }

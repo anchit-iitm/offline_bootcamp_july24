@@ -19,6 +19,14 @@ const routes = [
   {
     path: '/example',
     component: Example
+  },
+  {
+    path: '/login',
+    component: () => import('@/views/login.vue')
+  },
+  {  
+     path: '/create_category',
+  component: () => import('@/views/create_category.vue')
   }
 ]
 
